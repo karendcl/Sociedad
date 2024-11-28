@@ -1,0 +1,26 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+    <div class="filter_block">
+    <form action="/search" method="get">
+        <input type="text" name="search" placeholder="Titulo">
+        <input type="text" name="kw" placeholder="Palabra Clave" class="kw">
+        <button type="submit">Filtrar</button>
+    </form>
+    </div>
+
+    <div class="docs">
+    {% if docs %}
+        {% for doc in docs %}
+            <div class="doc">
+                <h2>{{ doc.title }}</h2>
+                <a href="/doc/{{ doc.id }}">Ver</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No se encontraron documentos</p>
+    {% endif %}
+    </div>
+
+{% endblock %}
+

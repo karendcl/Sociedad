@@ -60,3 +60,49 @@
         transition: font-size 0.5s;
     }
 }
+
+.filter_block{
+/*    make it a horizontal block on the top side of the screen*/
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+
+
+    form{
+        input{
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid gray;
+            box-sizing: border-box;
+            margin-left: auto;
+        }
+
+        .kw{
+            width: 500px;
+        }
+
+        button{
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: white;
+            cursor: pointer;
+            color: black;
+            font-size: medium;
+            box-sizing: border-box;
+            width: 100px;
+        }
+
+        button:hover{
+            background-color: lightskyblue;
+            text-decoration: underline;
+            text-shadow: grey 0 0 10px;
+            transition: text-shadow 0.5s;
+        }
+    }
+
+
+}
