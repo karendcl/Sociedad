@@ -24,3 +24,14 @@ def search(request):
         print(d)
         documents = d
     return render(request, 'docs/search.html', {'docs': documents})
+
+def insert(request):
+    if request.method == 'POST':
+        pic = request.FILES['file']
+        title = request.POST['title']
+        text = 'Pruebita'
+        doc = PendingDocuments.objects.create(image=pic, name=title, text=text)
+        doc.save()
+
+        return render(request, 'docs/insert.html')
+    return render(request, 'docs/insert.html')

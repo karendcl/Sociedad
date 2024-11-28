@@ -1,0 +1,22 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+
+    <div class="dnd">
+        <h1> Inserte el archivo </h1>
+
+        <div id="drop-area">
+            Drag here to preview
+        </div>
+
+        <form action="/insert/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="title" class='title' placeholder="Titulo del documento" required>
+            <input type="file" id="file-input" name ="file" multiple hidden required>
+            <div id="preview-container"></div>
+            <button type="submit">Enviar</button>
+
+        </form>
+    </div>
+
+{% endblock %}

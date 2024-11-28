@@ -23,6 +23,12 @@ def log_in(request):
 
         if user is not None:
             login(request, user)
+            groups = user.groups.all()
+            if groups:
+                request.session['role'] = groups[0].name
+            else:
+                request.session['role'] = 'user'
+
             return render(request, 'base/main.html')
     return render(request, 'users/log_in.html')
 
