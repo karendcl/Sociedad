@@ -1,0 +1,62 @@
+.bar{
+    background-color: lightskyblue;
+    color: black;
+    padding: 20px;
+    margin-bottom: 10px;
+    a {
+        color: #333;
+        text-decoration: none;
+        font-size: large;
+    }
+    a:hover {
+        color: #000;
+        text-decoration: underline;
+
+    }
+}
+
+.sign{
+/*    place the form in the middle of the page*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+
+/*center the inputs inside the div*/
+    input{
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid gray;
+    /*    the input is touching the risht margin of the div*/
+        box-sizing: border-box;
+
+    }
+
+    .btnn{
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: white;
+        cursor: pointer;
+        color: black;
+        font-size: medium;
+        box-sizing: border-box;
+    }
+
+    .btnn:hover{
+        background-color: lightskyblue;
+        text-decoration: underline;
+        font-size: large;
+        transition: font-size 0.5s;
+    }
+}

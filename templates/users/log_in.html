@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Log In</title>
-</head>
-<body>
-    <form method="post" action="/log_in/">
+
+{% extends 'base/main.html' %}
+{% block content %}
+    <form method="post" action="/log_in/" class="sign">
         {% csrf_token %}
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Autenticarse">
+        <input type="submit" value="Autenticarse" class="btnn">
+      <a href="/sign_up/">No tienes cuenta? Registrate</a>
     </form>
-    <a href="/sign_up/">No tienes cuenta? Registrate</a>
-</body>
-</html>
+
+
+{% endblock %}
