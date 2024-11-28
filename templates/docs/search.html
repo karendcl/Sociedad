@@ -2,8 +2,9 @@
 
 {% block content %}
     <div class="filter_block">
-    <form action="/search" method="get">
-        <input type="text" name="search" placeholder="Titulo">
+    <form action="/search/" method="post">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Titulo">
         <input type="text" name="kw" placeholder="Palabra Clave" class="kw">
         <button type="submit">Filtrar</button>
     </form>
@@ -13,7 +14,7 @@
     {% if docs %}
         {% for doc in docs %}
             <div class="doc">
-                <h2>{{ doc.title }}</h2>
+                <h2>{{ doc.name }}</h2>
                 <a href="/doc/{{ doc.id }}">Ver</a>
             </div>
         {% endfor %}

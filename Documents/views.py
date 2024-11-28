@@ -11,17 +11,16 @@ def search(request):
     documents = ApprovedDocuments.objects.all()
     if request.method == 'POST':
         title = request.POST['title']
-        kw = request.POST['keyword']
+        kw = request.POST['kw']
 
         all_documents = documents
         d = []
 
         for document in all_documents:
-            if title != '' and title not in document.name:
-                continue
-            if kw != '' and kw not in document.text:
-                continue
-            d.append(document)
-
+            if title != '' and title in document.name:
+                d.append(document)
+            if kw != '' and kw in document.text:
+                d.append(document)
+        print(d)
         documents = d
     return render(request, 'docs/search.html', {'docs': documents})

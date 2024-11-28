@@ -3,6 +3,7 @@
     color: black;
     padding: 20px;
     margin-bottom: 10px;
+    border-radius: 10px;
     a {
         color: #333;
         text-decoration: none;
@@ -104,5 +105,26 @@
         }
     }
 
+}
 
+.doc{
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    h2{
+        font-style: italic;
+        font-family: "Lucinda Grande", "Lucinda Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+    }
+    a {
+        color: #333;
+        text-decoration: none;
+        font-size: large;
+    }
+    a:hover {
+        color: #000;
+        text-decoration: underline;
+
+    }
 }
