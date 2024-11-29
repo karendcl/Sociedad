@@ -3,6 +3,8 @@ from .models import Profile
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
+
+
 # Create your views here.
 def sign_up(request):
     if request.method == 'POST':

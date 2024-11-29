@@ -2,6 +2,15 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import ApprovedDocuments, PendingDocuments
 
+
+from pathlib import Path
+import os, sys
+BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(os.path.join(BASE_DIR, 'model'))
+
+import segmentation as segmentation
+
+
 # Create your views here.
 
 def index(request):
@@ -32,8 +41,13 @@ def insert(request):
         pic = request.FILES['file']
         title = request.POST['title']
         text = 'Pruebita'
+
         doc = PendingDocuments.objects.create(image=pic, name=title, text=text)
         doc.save()
+
+        img_url = doc.image.url
+        urls = segmentation.cropped_img_path(img_url, BASE_DIR)
+        print(urls)
 
         return render(request, 'docs/insert.html')
     return render(request, 'docs/insert.html')
@@ -48,6 +62,7 @@ def pending(request):
 
 def edit(request, doc_id):
     doc = PendingDocuments.objects.get(pk=doc_id)
+
     if request.method == 'POST':
         try:
             name = request.POST['title']
