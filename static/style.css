@@ -196,3 +196,100 @@
         transition: text-shadow 0.5s;
     }
 }
+
+.document-viewer{
+/*    separate it into two columns. one for the iimg and one of the text*/
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
+    padding: 2%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+    .image{
+        width: 50%;
+        height: 100%;
+        padding: 1%;
+        border-right: 1px solid #ccc;
+    }
+
+    .info{
+        width: 50%;
+        padding: 1%;
+    }
+
+    img{
+        width: 100%;
+        height: 100%;
+    }
+
+    h2{
+        font-style: italic;
+        font-family: "Lucinda Grande", "Lucinda Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+    }
+
+    a {
+        color: #333;
+        text-decoration: none;
+        font-size: large;
+    }
+    a:hover {
+        color: #000;
+        text-decoration: underline;
+
+    }
+}
+
+.back-btn{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    color: black;
+    font-size: medium;
+    box-sizing: border-box;
+    width: 100px;
+    margin: auto auto;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+
+.back-btn:hover{
+    background-color: lightskyblue;
+    text-decoration: underline;
+    text-shadow: grey 0 0 10px;
+    transition: text-shadow 0.5s;
+}
+
+table{
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+th, td{
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th{
+    background-color: #f9f9f9;
+}
+
+/*td even*/
+tr:nth-child(even){
+    background-color: #f9f9f9;
+}
+
+/*td odd*/
+tr:nth-child(odd){
+    background-color: #fff;
+}
+

@@ -1,0 +1,25 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+
+    {% load static %}
+
+    <div class="document-viewer">
+        <form method="post" action="/edit/{{ document.id }}/">
+            {% csrf_token %}
+            <div class="info">
+                <input type="text" name="title" placeholder="{{ document.name }}" >
+                <input type="text" name="text" placeholder="{{ document.text }}" >
+            </div>
+            <button class="edit-btn" type="submit">Edit</button>
+        </form>
+
+
+         <div class="image">
+             <img src="{% static document.image.url %}" alt="{{ document.name }}">
+         </div>
+    </div>
+
+    <button class="back-btn" onclick="window.location.href = '/search/'">Back</button>
+
+{% endblock %}

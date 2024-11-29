@@ -1,0 +1,19 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+    {% load static %}
+
+    <div class="document-viewer">
+        <div class="info">
+            <h1> {{ document.name }}</h1>
+            <p> {{ document.text }}</p>
+        </div>
+
+         <div class="image">
+             <img src="{% static document.image.url %}" alt="{{ document.name }}">
+         </div>
+    </div>
+
+    <button class="back-btn" onclick="window.location.href = '/search/'">Back</button>
+
+{% endblock %}
