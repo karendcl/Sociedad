@@ -15,13 +15,15 @@ def search(request):
 
         all_documents = documents
         d = []
+        if title == '' and kw == '':
+            return render(request, 'docs/search.html', {'docs': documents})
 
         for document in all_documents:
             if title != '' and title in document.name:
                 d.append(document)
             if kw != '' and kw in document.text:
                 d.append(document)
-        print(d)
+
         documents = d
     return render(request, 'docs/search.html', {'docs': documents})
 
