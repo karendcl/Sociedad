@@ -114,7 +114,7 @@ def segmentation(img_path, BASE_DIR):
 
     os.chdir(os.path.join(BASE_DIR, "model", "temp"))
 
-    cv2.imwrite('segmented.jpg', im2)
+    # cv2.imwrite('segmented.jpg', im2)
 
     names = []
     #crop the image

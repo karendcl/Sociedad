@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(os.path.join(BASE_DIR, 'model'))
 
 import segmentation as segmentation
+import ocr as ocr
 
 
 # Create your views here.
@@ -48,6 +49,10 @@ def insert(request):
         img_url = doc.image.url
         urls = segmentation.cropped_img_path(img_url, BASE_DIR)
         print(urls)
+
+        predicted_text = ocr.predict_text(BASE_DIR)
+
+        print(predicted_text)
 
         return render(request, 'docs/insert.html')
     return render(request, 'docs/insert.html')
