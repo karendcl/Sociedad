@@ -5,6 +5,7 @@ class ApprovedDocuments(models.Model):
     image = models.ImageField(upload_to='document_images/', default='document_images/default.jpg')
     name = models.CharField(max_length=200)
     text = models.TextField()
+    xml_file = models.TextField(default='')
 
     def __str__(self):
         return self.name
@@ -13,6 +14,7 @@ class PendingDocuments(models.Model):
     image = models.ImageField(upload_to='document_images/', default='document_images/default.jpg')
     name = models.CharField(max_length=200)
     text = models.TextField()
+    xml_file = models.TextField(default='')
 
     def __str__(self):
         return self.name

@@ -9,4 +9,5 @@ urlpatterns = [
     path('doc/<int:doc_id>/', views.view_doc, name='doc'),
     path('pending/', views.pending, name='pending'),
     path('edit/<int:doc_id>/', views.edit, name='edit'),
+    path('download/<int:doc_id>/', views.download_xml, name='download'),
 ]

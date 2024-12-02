@@ -10,6 +10,7 @@ sys.path.append(os.path.join(BASE_DIR, 'model'))
 
 import segmentation as segmentation
 import ocr as ocr
+import xml_generator as xml_generator
 
 
 # Create your views here.
@@ -48,11 +49,20 @@ def insert(request):
 
         img_url = doc.image.url
         urls = segmentation.cropped_img_path(img_url, BASE_DIR)
-        print(urls)
 
-        predicted_text = ocr.predict_text(BASE_DIR)
+        predicted_text: [str] = ocr.predict_text(BASE_DIR)
 
-        print(predicted_text)
+        # join the text by \n
+        txt = '\n'.join(predicted_text)
+        doc.text = txt
+
+        xml = xml_generator.generate_xml(img_url, predicted_text, title)
+
+        doc.xml_file = xml
+
+
+
+        doc.save()
 
         return render(request, 'docs/insert.html')
     return render(request, 'docs/insert.html')
@@ -85,10 +95,26 @@ def edit(request, doc_id):
         except:
             pass
 
+        try:
+            xml = request.POST['xml_text']
+            if xml == '':
+                raise Exception
+            doc.xml_file = xml
+        except:
+            pass
+
         #add it to approved documents
         doc.save()
-        ApprovedDocuments.objects.create(image=doc.image, name=doc.name, text=doc.text)
+        ApprovedDocuments.objects.create(image=doc.image, name=doc.name, text=doc.text, xml_file=doc.xml_file)
         doc.delete()
 
         return render(request, 'docs/pending.html', {'posts': PendingDocuments.objects.all()})
     return render(request, 'docs/review.html', {'document': doc})
+
+def download_xml(request, doc_id):
+    doc = ApprovedDocuments.objects.get(pk=doc_id)
+    xml = doc.xml_file
+
+    response = HttpResponse(xml, content_type='text/xml')
+    response['Content-Disposition'] = f'attachment; filename="{doc.name}.xml"'
+    return response

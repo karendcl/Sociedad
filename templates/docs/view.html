@@ -5,6 +5,11 @@
 
     <div class="document-viewer">
         <div class="info">
+            <button class="download" onclick="window.location.href = '/download/{{ document.id }}/'">
+{#                load the icon from static#}
+                <img src="{% static 'download.png' %}" alt="Download">
+                Descargar xml
+            </button>
             <h1> {{ document.name }}</h1>
             <p> {{ document.text }}</p>
         </div>
