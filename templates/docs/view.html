@@ -11,7 +11,8 @@
                 Descargar xml
             </button>
             <h1> {{ document.name }}</h1>
-            <p> {{ document.text }}</p>
+{#            split the lines #}
+            <p>{{ document.text|linebreaksbr }}</p>
         </div>
 
          <div class="image">

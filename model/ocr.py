@@ -13,10 +13,11 @@ import sys, os, pathlib
 
 prediction_model = None
 num_to_char = None
+char_to_num = None
 
 
 def predict_text(BASE_DIR):
-    global prediction_model
+    global prediction_model, num_to_char, char_to_num
 
     def create_vocabulary():
         """
@@ -169,15 +170,22 @@ def predict_text(BASE_DIR):
 
     os.chdir(os.path.join(BASE_DIR, "model"))
 
+    if char_to_num is None or num_to_char is None:
+        char_to_num, num_to_char = create_vocabulary()
+        print(char_to_num.get_vocabulary())
+
+
+
     if prediction_model is None:
         model = load_model('proc1_80.0_32_0.001' + ".keras", custom_objects={'CTCLayer': CTCLayer})
         model.summary()
 
-        char_to_num, num_to_char = create_vocabulary()
         prediction_model = return_model_config(200, 50, char_to_num, load_image)
         prediction_model.set_weights(model.get_weights())
 
         prediction_model.summary()
+
+
 
     predicted_text = []
 

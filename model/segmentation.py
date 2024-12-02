@@ -121,7 +121,7 @@ def segmentation(img_path, BASE_DIR):
     for ind, line in enumerate(lines_found):
         crop_img = img[line[0]:line[1], 0:width]
         cv2.imwrite('segmented_'+str(ind)+'.jpg', crop_img)
-        names.append('segmented_'+str(ind)+'.jpg')
+        names.append(os.path.join(BASE_DIR, "model", "temp", 'segmented_'+str(ind)+'.jpg'))
 
     os.chdir(BASE_DIR)
 

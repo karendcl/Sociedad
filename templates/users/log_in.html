@@ -3,6 +3,7 @@
 {% block content %}
     <form method="post" action="/log_in/" class="sign">
         {% csrf_token %}
+        <label>Autenticarse</label>
         <input type="text" name="username" placeholder="Username">
         <input type="password" name="password" placeholder="Password">
         <input type="submit" value="Autenticarse" class="btnn">

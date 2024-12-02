@@ -58,4 +58,8 @@ function isValidFileType(file) {
 dropArea.addEventListener('drop', handleDrop);
 
 
+const textarea = document.getElementById('viewer-text');
+textarea.style.height = textarea.scrollHeight + 'px';
+
+
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Profile
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -14,7 +14,8 @@ def sign_up(request):
         user.save()
         profile = Profile(user=user)
         profile.save()
-        return render(request, 'base/main.html')
+        login(request, user)
+        return redirect('search')
     return render(request, 'users/sign_up.html')
 
 def log_in(request):
@@ -31,9 +32,11 @@ def log_in(request):
             else:
                 request.session['role'] = 'user'
 
-            return render(request, 'base/main.html')
+            # return render(request, 'docs/search.html')
+            return redirect('search')
     return render(request, 'users/log_in.html')
 
 def log_out(request):
     logout(request)
-    return render(request, 'base/main.html')
+    request.session['role'] = 'user'
+    return redirect('search')

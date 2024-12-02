@@ -20,13 +20,23 @@ def index(request):
 
 def search(request):
     documents = ApprovedDocuments.objects.all()
+    print(documents)
+    try:
+        title = request.POST['title']
+    except:
+        return render(request, 'docs/search.html', {'docs': documents})
+
     if request.method == 'POST':
+
         title = request.POST['title']
         kw = request.POST['kw']
 
+        print(title)
+        print(kw)
+
         all_documents = documents
         d = []
-        if title == '' and kw == '':
+        if title == '' and kw == '' or (not title and not kw):
             return render(request, 'docs/search.html', {'docs': documents})
 
         for document in all_documents:
@@ -60,7 +70,9 @@ def insert(request):
 
         doc.xml_file = xml
 
-
+        # remove the images
+        for url in urls:
+            os.remove(url)
 
         doc.save()
 
