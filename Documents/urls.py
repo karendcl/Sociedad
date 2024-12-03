@@ -10,4 +10,6 @@ urlpatterns = [
     path('pending/', views.pending, name='pending'),
     path('edit/<int:doc_id>/', views.edit, name='edit'),
     path('download/<int:doc_id>/', views.download_xml, name='download'),
+    path('add_fav/<int:doc_id>/', views.add_fav, name='add_fav'),
+    path('rem_fav/<int:doc_id>/', views.remove_fav, name='remove_fav'),
 ]

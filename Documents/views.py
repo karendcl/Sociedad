@@ -1,6 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import ApprovedDocuments, PendingDocuments
+from django.views.generic import ListView
+from django.core.paginator import Paginator
+from Users.models import Profile
+from django.contrib.auth.models import User
+
 
 
 from pathlib import Path
@@ -15,38 +20,69 @@ import xml_generator as xml_generator
 
 # Create your views here.
 
+
 def index(request):
     return render(request, 'base/main.html')
 
-def search(request):
+def search(request, from_fav=False):
     documents = ApprovedDocuments.objects.all()
-    print(documents)
+    pagination_size = 3
+
     try:
-        title = request.POST['title']
+        user = User.objects.get(username=request.user.username)
+        profile = Profile.objects.get(user=user)
+        fav_docs = profile.fav_docs.all()
     except:
-        return render(request, 'docs/search.html', {'docs': documents})
+        fav_docs = None
+
+    if not from_fav:
+        try:
+            title = request.POST['title']
+        except:
+            if request.session.get('filtered', None):
+                documents = [ApprovedDocuments.objects.get(pk=i) for i in request.session['filtered']]
+            paginator = Paginator(documents, pagination_size)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            return render(request, 'docs/search.html', {'docs': documents, 'page_obj': page_obj,
+                                                        'fav_docs': fav_docs})
 
     if request.method == 'POST':
 
         title = request.POST['title']
         kw = request.POST['kw']
 
-        print(title)
-        print(kw)
-
-        all_documents = documents
         d = []
         if title == '' and kw == '' or (not title and not kw):
-            return render(request, 'docs/search.html', {'docs': documents})
 
-        for document in all_documents:
-            if title != '' and title in document.name:
-                d.append(document)
-            if kw != '' and kw in document.text:
-                d.append(document)
+            request.session['filtered'] = None
+            paginator = Paginator(documents, pagination_size)
+            print(documents)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            return render(request, 'docs/search.html', {'docs':documents, 'page_obj': page_obj,
+                                                        'fav_docs': fav_docs})
 
-        documents = d
-    return render(request, 'docs/search.html', {'docs': documents})
+        filtered = [i for i in documents if (title != '' and title in i.name) or (kw != '' and kw in i.text)]
+
+        # save in the browser the ids of the documents
+        request.session['filtered'] = [i.id for i in filtered]
+
+        documents = filtered
+        paginator = Paginator(documents, pagination_size)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'docs/search.html', {'docs': documents, 'page_obj': page_obj,
+                                                    'fav_docs': fav_docs})
+
+    if from_fav:
+        if request.session.get('filtered', None):
+            documents = [ApprovedDocuments.objects.get(pk=i) for i in request.session['filtered']]
+        paginator = Paginator(documents, pagination_size)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'docs/search.html', {'docs': documents, 'page_obj': page_obj,
+                                                    'fav_docs': fav_docs})
 
 def insert(request):
     if request.method == 'POST':
@@ -81,11 +117,15 @@ def insert(request):
 
 def view_doc(request, doc_id):
     doc = ApprovedDocuments.objects.get(pk=doc_id)
-    return render(request, 'docs/view.html', {'document': doc})
+    return render(request, 'docs/view.html', {'document': doc, 'page':request.GET.get('page')})
 
 def pending(request):
     posts = PendingDocuments.objects.all()
-    return render(request, 'docs/pending.html', {'posts': posts})
+    # add the pagination
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'docs/pending.html', {'posts': posts, 'page_obj': page_obj})
 
 def edit(request, doc_id):
     doc = PendingDocuments.objects.get(pk=doc_id)
@@ -120,8 +160,14 @@ def edit(request, doc_id):
         ApprovedDocuments.objects.create(image=doc.image, name=doc.name, text=doc.text, xml_file=doc.xml_file)
         doc.delete()
 
-        return render(request, 'docs/pending.html', {'posts': PendingDocuments.objects.all()})
-    return render(request, 'docs/review.html', {'document': doc})
+        # pagination
+        posts = PendingDocuments.objects.all()
+        paginator = Paginator(posts, 15)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return redirect('pending', permanent=True)
+    return render(request, 'docs/review.html', {'document': doc, 'page': request.GET.get('page')})
 
 def download_xml(request, doc_id):
     doc = ApprovedDocuments.objects.get(pk=doc_id)
@@ -130,3 +176,18 @@ def download_xml(request, doc_id):
     response = HttpResponse(xml, content_type='text/xml')
     response['Content-Disposition'] = f'attachment; filename="{doc.name}.xml"'
     return response
+
+def add_fav(request, doc_id):
+    doc = ApprovedDocuments.objects.get(pk=doc_id)
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+#     ADD RELATIONSHIP BETWEEN PROFILE AND DOC
+    profile.fav_docs.add(doc)
+    return search(request, from_fav=True)
+
+def remove_fav(request, doc_id):
+    doc = ApprovedDocuments.objects.get(pk=doc_id)
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    profile.fav_docs.remove(doc)
+    return search(request, from_fav=True)

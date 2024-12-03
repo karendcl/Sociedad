@@ -12,15 +12,48 @@
 
     <div class="docs">
     {% if docs %}
-        {% for doc in docs %}
+        {% for doc in page_obj %}
             <div class="doc">
+            <div class="heading" style="display: flex">
+                {% if user.is_authenticated %}
+                    {% if doc in fav_docs %}
+                        <a href="/rem_fav/{{ doc.id }}?page={{ page_obj.number }}">
+                            <img src="/static/red-heart.png" alt="Favorito">
+                        </a>
+                    {% else %}
+                        <a href="/add_fav/{{ doc.id }}?page={{ page_obj.number }}">
+                            <img src="/static/black-heart.png" alt="Favorito">
+                        </a>
+                    {% endif %}
+                {% endif %}
+
                 <h2>{{ doc.name }}</h2>
-                <a href="/doc/{{ doc.id }}">Ver</a>
+
+            </div>
+
+                <a href="/doc/{{ doc.id }}?page={{ page_obj.number }}">Ver</a>
+
             </div>
         {% endfor %}
     {% else %}
-        <p>No se encontraron documentos</p>
+        <h2 class="no-results">No se encontraron documentos</h2>
     {% endif %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
     </div>
 
 {% endblock %}

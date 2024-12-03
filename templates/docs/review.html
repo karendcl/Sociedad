@@ -9,8 +9,8 @@
             {% csrf_token %}
             <div class="info">
                 <input type="text" name="title" placeholder="{{ document.name }}" value="{{ document.name }}">
-                <textarea name="text" placeholder="{{ document.text }}">{{ document.text }}</textarea>
-                <textarea name="xml_text" placeholder="{{ document.xml_file }}">{{ document.xml_file }}</textarea>
+                <textarea name="text" id="viewer-text" placeholder="{{ document.text }}">{{ document.text }}</textarea>
+                <textarea name="xml_text" id="viewer-text" placeholder="{{ document.xml_file }}">{{ document.xml_file }}</textarea>
             </div>
             <button class="edit-btn" type="submit">Edit</button>
         </form>
@@ -21,6 +21,6 @@
          </div>
     </div>
 
-    <button class="back-btn" onclick="window.location.href = '/pending'">Back</button>
+    <button class="back-btn" onclick="window.location.href = '/pending/?page={{ page }}'">Back</button>
 
 {% endblock %}
