@@ -26,7 +26,7 @@ def index(request):
 
 def search(request, from_fav=False):
     documents = ApprovedDocuments.objects.all()
-    pagination_size = 3
+    pagination_size = 4
 
     try:
         user = User.objects.get(username=request.user.username)
@@ -106,7 +106,7 @@ def insert(request):
 
         doc.xml_file = xml
 
-        # remove the images
+        # # remove the images
         for url in urls:
             os.remove(url)
 
@@ -147,13 +147,8 @@ def edit(request, doc_id):
         except:
             pass
 
-        try:
-            xml = request.POST['xml_text']
-            if xml == '':
-                raise Exception
-            doc.xml_file = xml
-        except:
-            pass
+        xml = xml_generator.generate_xml(doc.image.url, doc.text.split('\n'), doc.name)
+        doc.xml_file = xml
 
         #add it to approved documents
         doc.save()

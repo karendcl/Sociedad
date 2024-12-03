@@ -114,13 +114,15 @@ def predict_text(BASE_DIR):
         returns the prediction of the model.
         """
         # Load the image
-        image = load_image(image)
+        image1, image2 = load_image(image)
         # Make prediction
-        pred = model.predict(tf.expand_dims(image, axis=0))
+        pred = model.predict(tf.expand_dims(image1, axis=0))
+        pred1 = model.predict(tf.expand_dims(image2, axis=0))
         # Decode the prediction
         pred = decode_pred(pred, num_to_char)[0]
+        pred1 = decode_pred(pred1, num_to_char)[0]
 
-        return pred
+        return pred + pred1
 
     def load_image(image_path, IMG_WIDTH=200, IMG_HEIGHT=50):
         """
@@ -135,14 +137,25 @@ def predict_text(BASE_DIR):
         decoded_image = tf.image.decode_jpeg(contents=image, channels=1)
         # convert image data type to float32
         convert_imgs = tf.image.convert_image_dtype(image=decoded_image, dtype=tf.float32)
+
+        # crop by half and work with 2 images of smaller size
+        width = tf.shape(convert_imgs)[1]
+        half = width // 2
+        convert_imgs1 = convert_imgs[:, :half, :]
+        convert_imgs2 = convert_imgs[:, half:, :]
+
         # resize and transpose
-        resized_image = tf.image.resize(images=convert_imgs, size=(IMG_HEIGHT, IMG_WIDTH))
-        image = tf.transpose(resized_image, perm=[1, 0, 2])
+        resized_image1 = tf.image.resize(images=convert_imgs1, size=(IMG_HEIGHT, IMG_WIDTH))
+        image1 = tf.transpose(resized_image1, perm=[1, 0, 2])
+
+        resized_image2 = tf.image.resize(images=convert_imgs2, size=(IMG_HEIGHT, IMG_WIDTH))
+        image2 = tf.transpose(resized_image2, perm=[1, 0, 2])
 
         # to numpy array (Tensor)
-        image_array = tf.cast(image, dtype=tf.float32)
+        image_array1 = tf.cast(image1, dtype=tf.float32)
+        image_array2 = tf.cast(image2, dtype=tf.float32)
 
-        return image_array
+        return image_array1, image_array2
 
     def decoder_prediction(pred_label, num_to_char, MAX_LABEL_LENGTH=100):
         """
@@ -168,13 +181,13 @@ def predict_text(BASE_DIR):
 
         return filtered_texts
 
+    # -------------------------------------------------------------------------------------
+
     os.chdir(os.path.join(BASE_DIR, "model"))
 
     if char_to_num is None or num_to_char is None:
         char_to_num, num_to_char = create_vocabulary()
         print(char_to_num.get_vocabulary())
-
-
 
     if prediction_model is None:
         model = load_model('proc1_80.0_32_0.001' + ".keras", custom_objects={'CTCLayer': CTCLayer})
@@ -184,7 +197,6 @@ def predict_text(BASE_DIR):
         prediction_model.set_weights(model.get_weights())
 
         prediction_model.summary()
-
 
 
     predicted_text = []
