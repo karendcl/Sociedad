@@ -122,7 +122,7 @@ def view_doc(request, doc_id):
 def pending(request):
     posts = PendingDocuments.objects.all()
     # add the pagination
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'docs/pending.html', {'posts': posts, 'page_obj': page_obj})
