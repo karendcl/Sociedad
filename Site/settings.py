@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,15 @@ MEDIA_ROOT = (
 )
 
 MEDIA_URL = ''
+
+try:
+    from django.contrib.messages import constants as messages
+    MESSAGE_TAGS ={
+        messages.DEBUG : 'alert-info',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+    }
+except Exception as e:
+    pass

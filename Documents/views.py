@@ -5,6 +5,7 @@ from django.views.generic import ListView
 from django.core.paginator import Paginator
 from Users.models import Profile
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 
@@ -86,31 +87,36 @@ def search(request, from_fav=False):
 
 def insert(request):
     if request.method == 'POST':
-        pic = request.FILES['file']
-        title = request.POST['title']
-        text = 'Pruebita'
+        try:
+            pic = request.FILES['file']
+            title = request.POST['title']
+            text = 'Pruebita'
 
-        doc = PendingDocuments.objects.create(image=pic, name=title, text=text)
-        doc.save()
+            doc = PendingDocuments.objects.create(image=pic, name=title, text=text)
+            doc.save()
 
-        img_url = doc.image.url
-        urls = segmentation.cropped_img_path(img_url, BASE_DIR)
+            img_url = doc.image.url
+            urls = segmentation.cropped_img_path(img_url, BASE_DIR)
 
-        predicted_text: [str] = ocr.predict_text(BASE_DIR)
+            predicted_text: [str] = ocr.predict_text(BASE_DIR)
 
-        # join the text by \n
-        txt = '\n'.join(predicted_text)
-        doc.text = txt
+            # join the text by \n
+            txt = '\n'.join(predicted_text)
+            doc.text = txt
 
-        xml = xml_generator.generate_xml(img_url, predicted_text, title)
+            xml = xml_generator.generate_xml(img_url, predicted_text, title)
 
-        doc.xml_file = xml
+            doc.xml_file = xml
 
-        # # remove the images
-        for url in urls:
-            os.remove(url)
+            # # remove the images
+            for url in urls:
+                os.remove(url)
 
-        doc.save()
+            doc.save()
+            messages.success(request, 'Document uploaded successfully')
+        except:
+            messages.error(request, 'There was an error')
+
 
         return render(request, 'docs/insert.html')
     return render(request, 'docs/insert.html')
@@ -132,36 +138,43 @@ def edit(request, doc_id):
 
     if request.method == 'POST':
         try:
-            name = request.POST['title']
-            if name == '':
-                raise Exception
-            doc.name = name
+            try:
+                name = request.POST['title']
+                if name == '':
+                    raise Exception
+                doc.name = name
+            except:
+                pass
+
+            try:
+                text = request.POST['text']
+                if text == '':
+                    raise Exception
+                doc.text = text
+            except:
+                pass
+
+            xml = xml_generator.generate_xml(doc.image.url, doc.text.split('\n'), doc.name)
+            doc.xml_file = xml
+
+            #add it to approved documents
+            doc.save()
+            ApprovedDocuments.objects.create(image=doc.image, name=doc.name, text=doc.text, xml_file=doc.xml_file)
+            doc.delete()
+
+            messages.success(request, 'Document edited successfully')
+
+            # pagination
+            posts = PendingDocuments.objects.all()
+            paginator = Paginator(posts, 15)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            return redirect('pending', permanent=True)
         except:
-            pass
+            messages.error(request, 'There was an error')
+            return redirect('pending', permanent=True)
 
-        try:
-            text = request.POST['text']
-            if text == '':
-                raise Exception
-            doc.text = text
-        except:
-            pass
 
-        xml = xml_generator.generate_xml(doc.image.url, doc.text.split('\n'), doc.name)
-        doc.xml_file = xml
-
-        #add it to approved documents
-        doc.save()
-        ApprovedDocuments.objects.create(image=doc.image, name=doc.name, text=doc.text, xml_file=doc.xml_file)
-        doc.delete()
-
-        # pagination
-        posts = PendingDocuments.objects.all()
-        paginator = Paginator(posts, 15)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-
-        return redirect('pending', permanent=True)
     return render(request, 'docs/review.html', {'document': doc, 'page': request.GET.get('page')})
 
 def download_xml(request, doc_id):

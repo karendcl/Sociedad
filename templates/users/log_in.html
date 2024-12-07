@@ -1,14 +1,33 @@
 
 {% extends 'base/main.html' %}
 {% block content %}
-    <form method="post" action="/log_in/" class="sign">
-        {% csrf_token %}
-        <label>Autenticarse</label>
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Autenticarse" class="btnn">
-      <a href="/sign_up/">No tienes cuenta? Registrate</a>
-    </form>
+
+    <div class="login-container">
+        <form class="login-form" method="post" action="/log_in/">
+            {% csrf_token %}
+            <h2>Autenticarse</h2>
+            <div class="input-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Log In</button>
+            <p><a href="/sign_up/">No tienes cuenta? Registrate</a></p>
+        </form>
+    </div>
+
+{#    #}
+{#    <form method="post" action="/log_in/" class="sign">#}
+{#        {% csrf_token %}#}
+{#        <label>Autenticarse</label>#}
+{#        <input type="text" name="username" placeholder="Username">#}
+{#        <input type="password" name="password" placeholder="Password">#}
+{#        <input type="submit" value="Autenticarse" class="btnn">#}
+{#      <a href="/sign_up/">No tienes cuenta? Registrate</a>#}
+{#    </form>#}
 
 
 {% endblock %}

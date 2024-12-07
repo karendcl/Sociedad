@@ -9,6 +9,9 @@
 
     <link rel="stylesheet" href= "{% static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-zR2Th/03ns5/I8AcdNR9F6qOZ7+c4Qhpn0y86gZlanGoQzcg+s+g/GqogbljQRGyGioS2PZU/iWhu03xFbJ0N4"  crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
 
@@ -42,6 +45,15 @@
     </ul>
 </div>
 </nav>
+
+{% if messages %}
+   {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible shadow fade show"  role="alert">
+    <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">&times;</a>
+    {{ message|safe }}
+    </div>
+    {% endfor %}
+{% endif %}
 
 <div class="page">
     {% block content %}
