@@ -409,12 +409,17 @@ a {
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    /*size = height of screen*/
+    /*height: 80vh;*/
+    width: 100%;
 
     .image{
         width: 50%;
         height: 100%;
         padding: 1%;
         border-right: 1px solid #ccc;
+        justify-content: right;
+
     }
 
     .info{
@@ -431,6 +436,7 @@ a {
     img{
         width: 100%;
         height: 100%;
+        object-fit: contain;
 
     }
 
@@ -530,6 +536,7 @@ a {
         color: black;
         height: 400px;
         resize: none;
+
     }
 
 
@@ -549,6 +556,7 @@ a {
     text-align: center;
     justify-content: center;
     display: flex;
+    margin-bottom: 10px;
 }
 
 .back-btn:hover{

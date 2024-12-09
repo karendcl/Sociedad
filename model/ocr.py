@@ -16,7 +16,7 @@ num_to_char = None
 char_to_num = None
 
 
-def predict_text(BASE_DIR):
+def predict_text(BASE_DIR, image_urls):
     global prediction_model, num_to_char, char_to_num
 
     def create_vocabulary():
@@ -114,15 +114,15 @@ def predict_text(BASE_DIR):
         returns the prediction of the model.
         """
         # Load the image
-        image1, image2 = load_image(image)
+        image1 = load_image(image)
         # Make prediction
         pred = model.predict(tf.expand_dims(image1, axis=0))
-        pred1 = model.predict(tf.expand_dims(image2, axis=0))
+        # pred1 = model.predict(tf.expand_dims(image2, axis=0))
         # Decode the prediction
         pred = decode_pred(pred, num_to_char)[0]
-        pred1 = decode_pred(pred1, num_to_char)[0]
+        # pred1 = decode_pred(pred1, num_to_char)[0]
 
-        return pred + pred1
+        return pred
 
     def load_image(image_path, IMG_WIDTH=200, IMG_HEIGHT=50):
         """
@@ -141,21 +141,25 @@ def predict_text(BASE_DIR):
         # crop by half and work with 2 images of smaller size
         width = tf.shape(convert_imgs)[1]
         half = width // 2
-        convert_imgs1 = convert_imgs[:, :half, :]
-        convert_imgs2 = convert_imgs[:, half:, :]
+        # convert_imgs1 = convert_imgs[:, :half, :]
+        # convert_imgs2 = convert_imgs[:, half:, :]
+
 
         # resize and transpose
-        resized_image1 = tf.image.resize(images=convert_imgs1, size=(IMG_HEIGHT, IMG_WIDTH))
-        image1 = tf.transpose(resized_image1, perm=[1, 0, 2])
+        # resized_image1 = tf.image.resize(images=convert_imgs1, size=(IMG_HEIGHT, IMG_WIDTH))
+        # image1 = tf.transpose(resized_image1, perm=[1, 0, 2])
+        #
+        # resized_image2 = tf.image.resize(images=convert_imgs2, size=(IMG_HEIGHT, IMG_WIDTH))
+        # image2 = tf.transpose(resized_image2, perm=[1, 0, 2])
 
-        resized_image2 = tf.image.resize(images=convert_imgs2, size=(IMG_HEIGHT, IMG_WIDTH))
-        image2 = tf.transpose(resized_image2, perm=[1, 0, 2])
+        resized_image = tf.image.resize(images=convert_imgs, size=(IMG_HEIGHT, IMG_WIDTH))
+        image1 = tf.transpose(resized_image, perm=[1, 0, 2])
 
         # to numpy array (Tensor)
         image_array1 = tf.cast(image1, dtype=tf.float32)
-        image_array2 = tf.cast(image2, dtype=tf.float32)
+        # image_array2 = tf.cast(image2, dtype=tf.float32)
 
-        return image_array1, image_array2
+        return image_array1
 
     def decoder_prediction(pred_label, num_to_char, MAX_LABEL_LENGTH=100):
         """
@@ -190,7 +194,8 @@ def predict_text(BASE_DIR):
         print(char_to_num.get_vocabulary())
 
     if prediction_model is None:
-        model = load_model('proc1_80.0_32_0.001' + ".keras", custom_objects={'CTCLayer': CTCLayer})
+        model = load_model('cuban_docs' + ".keras", custom_objects={'CTCLayer': CTCLayer})
+        # model = load_model('proc1_80.0_32_0.001' + ".keras", custom_objects={'CTCLayer': CTCLayer})
         model.summary()
 
         prediction_model = return_model_config(200, 50, char_to_num, load_image)
@@ -199,16 +204,21 @@ def predict_text(BASE_DIR):
         prediction_model.summary()
 
 
-    predicted_text = []
+    predicted_text = [' '] * len(image_urls)
 
     img_path_ = os.path.join(os.getcwd(), 'temp')
 
     for img in os.listdir(img_path_):
         path = os.path.join(img_path_, img)
         if img.endswith('.jpg'):
-            predicted_text.append(make_prediction(prediction_model, path, decoder_prediction, load_image, num_to_char))
+            index = image_urls.index(img)
+            pred = make_prediction(prediction_model, path, decoder_prediction, load_image, num_to_char)
+            predicted_text[index] = pred
+
+            # predicted_text.append(make_prediction(prediction_model, path, decoder_prediction, load_image, num_to_char))
 
     os.chdir(BASE_DIR)
+    print(predicted_text)
 
     return predicted_text
 

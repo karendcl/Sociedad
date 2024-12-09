@@ -96,9 +96,10 @@ def insert(request):
             doc.save()
 
             img_url = doc.image.url
-            urls = segmentation.cropped_img_path(img_url, BASE_DIR)
+            urls, raw = segmentation.cropped_img_path(img_url, BASE_DIR)
+            print(urls)
 
-            predicted_text: [str] = ocr.predict_text(BASE_DIR)
+            predicted_text: [str] = ocr.predict_text(BASE_DIR, raw)
 
             # join the text by \n
             txt = '\n'.join(predicted_text)
@@ -112,10 +113,11 @@ def insert(request):
             for url in urls:
                 os.remove(url)
 
+
             doc.save()
             messages.success(request, 'Document uploaded successfully')
-        except:
-            messages.error(request, 'There was an error')
+        except Exception as e:
+            messages.error(request, f'There was an error: {e}')
 
 
         return render(request, 'docs/insert.html')

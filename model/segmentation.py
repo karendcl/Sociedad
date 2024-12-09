@@ -2,6 +2,77 @@
 import cv2
 import sys, os, pathlib
 
+import cv2
+import numpy as np
+from scipy.signal import savgol_filter
+
+def preprocess_image(image_path):
+    # Convert image to grayscale
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    # apply gaussian filter
+    image = cv2.GaussianBlur(image, (9, 9), 0)
+    # apply median filter
+    image = cv2.medianBlur(image, 5)
+    # # Apply binary thresholding
+    _, binary_image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    return binary_image
+
+
+
+def smooth_hpp(hpp, window_length=51, polyorder=3):
+    # Apply Savitzky-Golay filter for smoothing
+    smoothed_hpp = savgol_filter(hpp, window_length, polyorder)
+    return smoothed_hpp
+
+def detect_line_boundaries(hpp, smoothed_hpp, threshold_fraction=0.2, padding=15):
+    # Calculate dynamic threshold based on HPP average intensity
+    threshold = np.max(smoothed_hpp) * threshold_fraction
+    lines = []
+    in_line = False
+    for i, value in enumerate(smoothed_hpp):
+        if value > threshold and not in_line:
+            start = max(0, i - padding)
+            in_line = True
+        elif value < threshold and in_line:
+            end = min(len(hpp)-1, i + padding)
+            lines.append((start, end))
+            in_line = False
+    return lines
+
+def draw_segmentation_lines(image, lines, name, BASE_DIR):
+    orig_img = cv2.imread(name)
+
+    os.chdir(os.path.join(BASE_DIR, "model", "temp"))
+
+    names = []
+    raw_names = []
+    for i, (start, end) in enumerate(lines):
+        crop_img = orig_img[start:end, :]
+        cv2.imwrite(f'segm_{i}.jpg', crop_img)
+        names.append(os.path.join(BASE_DIR, "model", "temp", f'segm_{i}.jpg'))
+        raw_names.append(f'segm_{i}.jpg')
+
+    os.chdir(BASE_DIR)
+    return names, raw_names
+
+def seg_image(image_path, BASE_DIR):
+    # Load and preprocess the image
+    binary_image = preprocess_image(image_path)
+
+    # Calculate the horizontal projection profile
+    hpp = np.sum(binary_image, axis=1)
+
+    # Smooth the horizontal projection profile
+    smoothed_hpp = smooth_hpp(hpp)
+
+    # Detect line boundaries using the smoothed HPP
+    line_boundaries = detect_line_boundaries(hpp, smoothed_hpp)
+
+    # Draw segmentation lines on the original image
+    segmented_image, raw_names = draw_segmentation_lines(binary_image, line_boundaries, image_path, BASE_DIR)
+
+    return segmented_image, raw_names
+
 def segmentation(img_path, BASE_DIR):
     img = cv2.imread(img_path)
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -79,5 +150,6 @@ def cropped_img_path(img_name, BASE_DIR):
     path = os.path.join(BASE_DIR, split[0], split[1], split[2])
     print(path)
 
-    return segmentation(path, BASE_DIR)
+    # return segmentation(path, BASE_DIR)
+    return seg_image(path, BASE_DIR)
 
