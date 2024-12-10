@@ -1,0 +1,37 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+    <div class="docs">
+    {% if docs %}
+        {% for doc in page_obj %}
+            <div class="doc">
+            <div class="heading" style="display: flex">
+                <h2>{{ doc.name }}</h2>
+            </div>
+{#                <a href="/doc/{{ doc.id }}?page={{ page_obj.number }}?from_fav_page=True">Ver</a>#}
+                    <a href="/doc_f/{{ doc.id }}?page={{ page_obj.number }}">Ver</a>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2 class="no-results">No se encontraron documentos</h2>
+    {% endif %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    </div>
+
+{% endblock %}

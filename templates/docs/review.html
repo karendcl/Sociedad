@@ -5,14 +5,20 @@
     {% load static %}
 
     <div class="document-viewer">
+    <div class="document">
         <form method="post" action="/edit/{{ document.id }}/">
             {% csrf_token %}
             <div class="info">
                 <input type="text" name="title" placeholder="{{ document.name }}" value="{{ document.name }}">
                 <textarea name="text" id="viewer-text" placeholder="{{ document.text }}">{{ document.text }}</textarea>
             </div>
-            <button class="edit-btn" type="submit">Edit</button>
+            <button class="edit-btn" type="submit">Aceptar</button>
         </form>
+
+        <button class="delete-btn" onclick="window.location.href = '/delete/{{ document.id }}/'">Rechazar</button>
+    </div>
+
+
 
 
          <div class="image">

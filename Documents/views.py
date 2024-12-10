@@ -115,9 +115,9 @@ def insert(request):
 
 
             doc.save()
-            messages.success(request, 'Document uploaded successfully')
+            messages.success(request, 'Documento insertado')
         except Exception as e:
-            messages.error(request, f'There was an error: {e}')
+            messages.error(request, f'Ocurrio un error: {e}')
 
 
         return render(request, 'docs/insert.html')
@@ -125,7 +125,11 @@ def insert(request):
 
 def view_doc(request, doc_id):
     doc = ApprovedDocuments.objects.get(pk=doc_id)
-    return render(request, 'docs/view.html', {'document': doc, 'page':request.GET.get('page')})
+    return render(request, 'docs/view.html', {'document': doc, 'page':request.GET.get('page'), 'from_fav': False})
+
+def view_doc_f(request, doc_id):
+    doc = ApprovedDocuments.objects.get(pk=doc_id)
+    return render(request, 'docs/view.html', {'document': doc, 'page':request.GET.get('page'), 'from_fav': True})
 
 def pending(request):
     posts = PendingDocuments.objects.all()
@@ -164,7 +168,7 @@ def edit(request, doc_id):
             ApprovedDocuments.objects.create(image=doc.image, name=doc.name, text=doc.text, xml_file=doc.xml_file)
             doc.delete()
 
-            messages.success(request, 'Document edited successfully')
+            messages.success(request, 'Documento aceptado')
 
             # pagination
             posts = PendingDocuments.objects.all()
@@ -172,8 +176,8 @@ def edit(request, doc_id):
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
             return redirect('pending', permanent=True)
-        except:
-            messages.error(request, 'There was an error')
+        except Exception as e:
+            messages.error(request, f'Ocurrio un error: {e}')
             return redirect('pending', permanent=True)
 
 
@@ -201,3 +205,21 @@ def remove_fav(request, doc_id):
     profile = Profile.objects.get(user=user)
     profile.fav_docs.remove(doc)
     return search(request, from_fav=True)
+
+def favorites(request):
+    user = User.objects.get(username=request.user.username)
+    profile = Profile.objects.get(user=user)
+    fav_docs = profile.fav_docs.all()
+
+    # pagination
+    paginator = Paginator(fav_docs, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'docs/favs.html', {'docs': fav_docs, 'page_obj': page_obj})
+
+def delete(request, doc_id):
+    doc = PendingDocuments.objects.get(pk=doc_id)
+    doc.delete()
+    # message
+    messages.success(request, 'Documento rechazado')
+    return redirect('pending', permanent=True)

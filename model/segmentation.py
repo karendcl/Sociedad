@@ -24,7 +24,7 @@ def smooth_hpp(hpp, window_length=51, polyorder=3):
     smoothed_hpp = savgol_filter(hpp, window_length, polyorder)
     return smoothed_hpp
 
-def detect_line_boundaries(hpp, smoothed_hpp, threshold_fraction=0.2, padding=15):
+def detect_line_boundaries(hpp, smoothed_hpp, threshold_fraction=0.3, padding=15):
     # Calculate dynamic threshold based on HPP average intensity
     threshold = np.max(smoothed_hpp) * threshold_fraction
     lines = []

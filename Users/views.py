@@ -14,7 +14,7 @@ def sign_up(request):
 
         # Check if the username is valid
         if User.objects.filter(username=username).exists():
-            messages.error(request, 'Username is already taken')
+            messages.error(request, 'Nombre de usuario ya en uso')
             return redirect('sign_up')
 
 
@@ -24,10 +24,10 @@ def sign_up(request):
             profile = Profile(user=user)
             profile.save()
             login(request, user)
-            messages.success(request, 'New account created')
+            messages.success(request, 'Nueva cuenta creada')
             return redirect('search')
-        except:
-            messages.error(request, 'There was an error')
+        except Exception as e:
+            messages.error(request, f'Ocurrió un error: {e}')
 
     return render(request, 'users/sign_up.html')
 
@@ -44,16 +44,16 @@ def log_in(request):
                 request.session['role'] = groups[0].name
             else:
                 request.session['role'] = 'user'
-            messages.success(request,'Log in successful')
+            messages.success(request,'Autenticación exitosa')
             # return render(request, 'docs/search.html')
             return redirect('search')
         else:
-            messages.error(request, 'Invalid credentials')
+            messages.error(request, 'Credenciales inválidas')
             return redirect('log_in')
     return render(request, 'users/log_in.html')
 
 def log_out(request):
     logout(request)
     request.session['role'] = 'user'
-    messages.success(request, 'Log out successful')
+    messages.success(request, 'Sesión cerrada exitosamente')
     return redirect('search')
