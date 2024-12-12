@@ -1,6 +1,7 @@
 
 {% extends 'base/main.html' %}
 {% block content %}
+   {% load static %}
 
     <div class="login-container">
         <form class="login-form" method="post" action="/log_in/">
@@ -12,7 +13,11 @@
             </div>
             <div class="input-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" name="password" required>
+            
+                    <input type="password" id="password" name="password" required>
+
+
+
             </div>
             <button type="submit">Autenticarse</button>
             <p><a href="/sign_up/">No tienes cuenta? Registrate</a></p>

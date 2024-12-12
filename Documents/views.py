@@ -27,7 +27,7 @@ def index(request):
 
 def search(request, from_fav=False):
     documents = ApprovedDocuments.objects.all()
-    pagination_size = 4
+    pagination_size = 5
 
     try:
         user = User.objects.get(username=request.user.username)
@@ -52,19 +52,38 @@ def search(request, from_fav=False):
 
         title = request.POST['title']
         kw = request.POST['kw']
+        date = request.POST['date']
+        author = request.POST['author']
+        place = request.POST['place']
+        type_doc = request.POST['type']
 
-        d = []
-        if title == '' and kw == '' or (not title and not kw):
+        type_map = {
+            '0': '',
+            '1': 'Ordinaria',
+            '2': 'Extraordinaria',
+            '3': ''}
 
-            request.session['filtered'] = None
-            paginator = Paginator(documents, pagination_size)
-            print(documents)
-            page_number = request.GET.get('page')
-            page_obj = paginator.get_page(page_number)
-            return render(request, 'docs/search.html', {'docs':documents, 'page_obj': page_obj,
-                                                        'fav_docs': fav_docs})
+        type_doc = type_map[type_doc]
 
-        filtered = [i for i in documents if (title != '' and title in i.name) or (kw != '' and kw in i.text)]
+        ordered = request.POST['order-by']
+
+        filtered = [i for i in documents if
+                    (title == '' or title in i.name) and
+                    (kw == '' or kw in i.text) and
+                    (date == '' or date in i.xml_file) and
+                    (author == '' or author in i.xml_file) and
+                    (place == '' or place in i.xml_file) and
+                    (type_doc == '' or type_doc in i.xml_file)]
+        print('filtering by: \n title:', title, '\n kw:', kw, '\n date:', date, '\n author:', author, '\n place:', place, '\n type:', type_doc)
+
+        if ordered == '1':
+            filtered = sorted(filtered, key=lambda x: x.fecha)
+        elif ordered == '2':
+            filtered = sorted(filtered, key=lambda x: x.fecha, reverse=True)
+        elif ordered == '3':
+            filtered = sorted(filtered, key=lambda x: x.name.upper())
+        elif ordered == '4':
+            filtered = sorted(filtered, key=lambda x: x.name.upper(), reverse=True)
 
         # save in the browser the ids of the documents
         request.session['filtered'] = [i.id for i in filtered]
@@ -88,7 +107,14 @@ def search(request, from_fav=False):
 def insert(request):
     if request.method == 'POST':
         try:
-            pic = request.FILES['file']
+            # pic = request.FILES['file']
+
+            # select all the images inserted
+            pics = request.FILES.getlist('file')
+            print(pics)
+            pic = pics[0]
+
+
             title = request.POST['title']
             text = 'Pruebita'
 
@@ -223,3 +249,22 @@ def delete(request, doc_id):
     # message
     messages.success(request, 'Documento rechazado')
     return redirect('pending', permanent=True)
+
+def clean(request):
+    documents = ApprovedDocuments.objects.all()
+    pagination_size = 4
+
+    try:
+        user = User.objects.get(username=request.user.username)
+        profile = Profile.objects.get(user=user)
+        fav_docs = profile.fav_docs.all()
+    except:
+        fav_docs = None
+
+    request.session['filtered'] = None
+
+    paginator = Paginator(documents, pagination_size)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'docs/search.html', {'docs': documents, 'page_obj': page_obj,
+                                                'fav_docs': fav_docs})

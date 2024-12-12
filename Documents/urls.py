@@ -15,4 +15,5 @@ urlpatterns = [
     path('rem_fav/<int:doc_id>/', views.remove_fav, name='remove_fav'),
     path('favorites/', views.favorites, name='favorites'),
     path('delete/<int:doc_id>/', views.delete, name='delete'),
+    path('clean/', views.clean, name='clean'),
 ]

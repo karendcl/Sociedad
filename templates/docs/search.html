@@ -3,11 +3,34 @@
 {% block content %}
     {% load static %}
 
+    <div class="search-page">
+
     <div class="filter_block">
+    <button type="button" onclick="window.location.href='/clean'">Limpiar filtros</button>
+
     <form action="/search/" method="post">
         {% csrf_token %}
         <input type="text" name="title" placeholder="Titulo">
         <input type="text" name="kw" placeholder="Palabra Clave" class="kw">
+        <input type="number" name="date" placeholder="Fecha" class="date">
+        <input type="text" name="author" placeholder="Autor" class="autor">
+        <input type="text" name="place" placeholder="Lugar" class="place">
+{#       dropdown menu for type of act using bootstrap classes#}
+        <select name="type" class="type">
+            <option value="0" selected>Tipo de Acta</option>
+            <option value="1">Ordinaria</option>
+            <option value="2">Extraordinaria</option>
+            <option value="3">Ambas</option>
+        </select>
+
+        <select name="order-by" class="order-by">
+            <option value="0" selected>Ordenar por</option>
+            <option value="1">Fecha Asc</option>
+            <option value="2">Fecha Desc</option>
+            <option value="3">Titulo Asc</option>
+            <option value="4">Titulo Desc</option>
+        </select>
+
         <button type="submit">Filtrar</button>
     </form>
     </div>
@@ -37,11 +60,8 @@
 
             </div>
         {% endfor %}
-    {% else %}
-        <h2 class="no-results">No se encontraron documentos</h2>
-    {% endif %}
 
-    <div class="pagination">
+        <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
                 <a href="?page=1">&laquo; first</a>
@@ -56,6 +76,15 @@
             {% endif %}
         </span>
     </div>
+
+
+    {% else %}
+        <h2 class="no-results">No se encontraron documentos</h2>
+    {% endif %}
+
+
+    </div>
+
     </div>
 
 {% endblock %}
