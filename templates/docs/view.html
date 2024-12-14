@@ -5,18 +5,46 @@
 
     <div class="document-viewer">
         <div class="info">
-            <button class="download" onclick="window.location.href = '/download/{{ document.id }}/'">
-{#                load the icon from static#}
-                <img src="{% static 'download.png' %}" alt="Download">
-                Descargar xml
-            </button>
-            <h1> {{ document.name }}</h1>
-{#            split the lines #}
-            <p>{{ document.text|linebreaksbr }}</p>
+
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+          Metadatos
+        </button>
+
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+          <div class="offcanvas-header">
+            <h2 class="offcanvas-title" id="offcanvasExampleLabel">Metadatos del acta </h2>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+              <h5> Titulo: {{ document.title }}</h5>
+              <h5> Fecha: {{ document.year }}</h5>
+              <h5> Tipo: {{ document.type }}</h5>
+              <h5> Autor: {{ document.author }}</h5>
+              <h5> Lugar: {{ document.place }}</h5>
+          </div>
+        </div>
+
+
+            <h1> {{ document.title }}</h1>
+            <p>{{ act_page.text|linebreaksbr }}</p>
         </div>
 
          <div class="image">
-             <img src="{% static document.image.url %}" alt="{{ document.name }}">
+             <div class="change-page-btn">
+                {% if has_prev %}
+                 <button type="button" onclick="window.location.href = '/change_view/{{ document.id }}/{{ act_page.id }}/2'"> Prev </button>
+                 {% endif %}
+                 {% if has_next %}
+                 <button type="button" onclick="window.location.href = '/change_view/{{ document.id }}/{{ act_page.id }}/1'"> Next </button>
+                 {% endif %}
+             </div>
+
+            <button class="download" onclick="window.location.href = '/download/{{ document.id }}/'">
+                <img src="{% static 'download.png' %}" alt="Download">
+                Descargar xml
+            </button>
+
+             <img src="{% static act_page.image.url %}" alt="{{ document.title }}">
          </div>
     </div>
 
@@ -25,6 +53,6 @@
     {% else %}
         <button class="back-btn" onclick="window.location.href = '/search/?page={{ page }}'">Back</button>
     {% endif %}
-{#    <button class="back-btn" onclick="window.location.href = '/search/?page={{ page }}'">Back</button>#}
+
 
 {% endblock %}

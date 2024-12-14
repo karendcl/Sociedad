@@ -5,24 +5,39 @@
     {% load static %}
 
     <div class="document-viewer">
+
     <div class="document">
         <form method="post" action="/edit/{{ document.id }}/">
             {% csrf_token %}
-            <div class="info">
-                <input type="text" name="title" placeholder="{{ document.name }}" value="{{ document.name }}">
-                <textarea name="text" id="viewer-text" placeholder="{{ document.text }}">{{ document.text }}</textarea>
-            </div>
-            <button class="edit-btn" type="submit">Aceptar</button>
+            <input type="text" name="title" placeholder="{{ document.title }}" value="{{ document.title }}">
+            <button class="edit-btn" type="submit">Aceptar Acta</button>
+            <button class="delete-btn" onclick="window.location.href = '/delete/{{ document.id }}/'">Rechazar Acta</button>
         </form>
 
-        <button class="delete-btn" onclick="window.location.href = '/delete/{{ document.id }}/'">Rechazar</button>
+
+        <form method="post" action="/save_page/{{ act_page.id }}/?act_id={{ document.id }}">
+            {% csrf_token %}
+            <div class="info">
+                <textarea name="text" id="viewer-text" placeholder="{{ act_page.text }}">{{ act_page.text }}</textarea>
+            </div>
+            <button class="edit-btn" type="submit">Aceptar Página</button>
+        </form>
+
     </div>
 
-
-
-
          <div class="image">
-             <img src="{% static document.image.url %}" alt="{{ document.name }}">
+{#             prev and next buttons#}
+             <div class="change-page-btn">
+                {% if has_prev %}
+                 <button type="button" onclick="window.location.href = '/change/{{ document.id }}/{{ act_page.id }}/2'"> Prev </button>
+                 {% endif %}
+                 {% if has_next %}
+                 <button type="button" onclick="window.location.href = '/change/{{ document.id }}/{{ act_page.id }}/1'"> Next </button>
+                 {% endif %}
+
+
+             </div>
+             <img src="{% static act_page.image.url %}" alt="{{ document.title }}">
          </div>
     </div>
 

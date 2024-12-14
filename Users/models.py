@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from Documents.models import ApprovedDocuments
+from Documents.models import ApprovedDocuments, Act
 
 # Create your models here.
 

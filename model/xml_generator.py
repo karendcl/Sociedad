@@ -50,8 +50,37 @@ def save_tei(tei, path):
     ET.indent(tei, space="   ")
     tree.write(path)
 
-def generate_xml(img_path, text:[str], title):
-    tei = transform_tei_format(img_path, text, title)
+def create_heading(name):
+    tei = ET.Element('TEI')
+    tei.attrib['xmlns'] = 'http://www.tei-c.org/ns/1.0'
+
+    teiHeader = ET.SubElement(tei, 'teiHeader')
+    fileDesc = ET.SubElement(teiHeader, 'fileDesc')
+    titleStmt = ET.SubElement(fileDesc, 'titleStmt')
+    title = ET.SubElement(titleStmt, 'title')
+    title.text = f'{name}'
+
+    return tei
+
+def create_page(tei, img, text):
+    pb = ET.SubElement(tei, 'pb')
+    pb.attrib['facs'] = img
+
+    div = ET.SubElement(tei, 'div')
+    div.attrib['type'] = 'page'
+
+    for line in text.split('\n'):
+        p = ET.SubElement(div, 'p')
+        p.text = line
+
+    return tei
+
+def generate_xml(img_path: [], text:[[str]], title):
+    header = create_heading(title)
+    tei = None
+    for i in range(len(img_path)):
+        tei = create_page(header, img_path[i], text[i])
+
     tree = ET.ElementTree(tei)
     ET.indent(tei, space="   ")
     #return the string representation of the xml

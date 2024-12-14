@@ -16,4 +16,8 @@ urlpatterns = [
     path('favorites/', views.favorites, name='favorites'),
     path('delete/<int:doc_id>/', views.delete, name='delete'),
     path('clean/', views.clean, name='clean'),
+    path('save_page/<int:page_id>/', views.save_page_changes, name='save_page'),
+    path('change/<int:act_id>/<int:page_id>/<int:change>', views.change_page, name='next'),
+    path('change_view/<int:act_id>/<int:page_id>/<int:change>', views.change_view, name='change'),
+
 ]
