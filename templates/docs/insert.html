@@ -11,21 +11,22 @@
 
         <form action="/insert/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="text" name="title" class='title' placeholder="Titulo del documento" required>
+            <div class="form-group">
+                <input type="text" name="title" class='title' placeholder="Titulo del documento" required>
+                <input type="text" name="author" class="title" placeholder="Autor del Acta" required>
+                <input type="text" name="date" class="title" placeholder="Fecha del Acta (dd/mm/yyyy)" required>
+                <input type="text" name="place" class="title" placeholder="Lugar del Acta" required>
+                <select name="type" class="title"  required>
+                    <option value="Ordinaria">Ordinaria</option>
+                    <option value="Extraordinaria">Extraordinaria</option>
+                </select>
+            </div>
+
+
             <input type="file" id="file-input" name ="file" multiple hidden required>
-{#            toggle button for selecting model using bootstrap. only 2 options#}
-{#            <div class="btn-group" data-toggle="buttons">#}
-{#                <label class="btn btn-primary active">#}
-{#                    <input type="radio" name="model" value="1" autocomplete="off" checked> Modelo 1#}
-{#                </label>#}
-{#                <label class="btn btn-primary">#}
-{#                    <input type="radio" name="model" value="2" autocomplete="off"> Modelo 2#}
-{#                </label>#}
-{#            </div>#}
-
-
             <div id="preview-container"></div>
             <button type="submit">Enviar</button>
+
 
         </form>
     </div>

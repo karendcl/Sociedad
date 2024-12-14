@@ -29,15 +29,16 @@
 {#             prev and next buttons#}
              <div class="change-page-btn">
                 {% if has_prev %}
-                 <button type="button" onclick="window.location.href = '/change/{{ document.id }}/{{ act_page.id }}/2'"> Prev </button>
+                 <button type="button" onclick="window.location.href = '/change/{{ document.id }}/{{ act_page.id }}/2'"> &lArr; </button>
                  {% endif %}
                  {% if has_next %}
-                 <button type="button" onclick="window.location.href = '/change/{{ document.id }}/{{ act_page.id }}/1'"> Next </button>
+                 <button type="button" onclick="window.location.href = '/change/{{ document.id }}/{{ act_page.id }}/1'"> &rArr; </button>
                  {% endif %}
-
-
              </div>
-             <img src="{% static act_page.image.url %}" alt="{{ document.title }}">
+            <div class="page">
+                <img src="{% static act_page.image.url %}" alt="{{ document.title }}">
+            </div>
+
          </div>
     </div>
 

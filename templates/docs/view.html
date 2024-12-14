@@ -6,7 +6,7 @@
     <div class="document-viewer">
         <div class="info">
 
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+        <button class="btn btn-primary metad"  type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
           Metadatos
         </button>
 
@@ -30,19 +30,21 @@
         </div>
 
          <div class="image">
-             <div class="change-page-btn">
-                {% if has_prev %}
-                 <button type="button" onclick="window.location.href = '/change_view/{{ document.id }}/{{ act_page.id }}/2'"> Prev </button>
-                 {% endif %}
-                 {% if has_next %}
-                 <button type="button" onclick="window.location.href = '/change_view/{{ document.id }}/{{ act_page.id }}/1'"> Next </button>
-                 {% endif %}
-             </div>
-
             <button class="download" onclick="window.location.href = '/download/{{ document.id }}/'">
                 <img src="{% static 'download.png' %}" alt="Download">
                 Descargar xml
             </button>
+
+             <div class="change-page-btn">
+                {% if has_prev %}
+                 <button type="button" onclick="window.location.href = '/change_view/{{ document.id }}/{{ act_page.id }}/2'"> &lAarr; </button>
+                 {% endif %}
+                 {% if has_next %}
+                 <button type="button" onclick="window.location.href = '/change_view/{{ document.id }}/{{ act_page.id }}/1'"> &rAarr; </button>
+                 {% endif %}
+             </div>
+
+
 
              <img src="{% static act_page.image.url %}" alt="{{ document.title }}">
          </div>

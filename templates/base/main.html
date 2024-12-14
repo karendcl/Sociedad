@@ -23,6 +23,7 @@
 <div class="container">
     <ul class="menu">
         <li><a href="/search">Buscar</a></li>
+        <li><a href="/about">Acerca de</a></li>
 
         {% if request.session.role == 'ADMIN' %}
             <li><a href="/admin">BASE DE DATOS</a></li>
@@ -44,6 +45,8 @@
         <li><a href="/favorites">Favoritos</a></li>
         <li><a href="/log_out">Salir</a></li>
     {% endif %}
+
+
 
     </ul>
 </div>

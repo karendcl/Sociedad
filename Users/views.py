@@ -57,3 +57,6 @@ def log_out(request):
     request.session['role'] = 'user'
     messages.success(request, 'Sesión cerrada exitosamente')
     return redirect('search')
+
+def about(request):
+    return render(request, 'base/about.html')

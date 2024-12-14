@@ -23,7 +23,7 @@ import xml_generator as xml_generator
 
 
 def index(request):
-    return render(request, 'base/main.html')
+    return render(request, 'base/about.html')
 
 def search(request, from_fav=False):
     # get all acts that are approved
@@ -113,8 +113,12 @@ def insert(request):
             pics = request.FILES.getlist('file')
             print(pics)
 
-            # todo get object metadata
             title = request.POST['title']
+            date = request.POST['date']
+            author = request.POST['author']
+            place = request.POST['place']
+            type_doc = request.POST['type']
+
 
             pages = []
             image_urls = []
@@ -145,7 +149,12 @@ def insert(request):
             predicted_text = [page.text for page in pages]
             xml = xml_generator.generate_xml(image_urls, predicted_text, title)
 
-            doc = Act.objects.create(title=title, year=2021, author='author', place='place', type='type', xml_file=xml,
+            doc = Act.objects.create(title=title,
+                                     year=date,
+                                     author=author,
+                                     place=place,
+                                     type=type_doc,
+                                     xml_file=xml,
                                      approved=False)
             doc.pages.set(pages)
             doc.save()
@@ -188,6 +197,7 @@ def pending(request):
     paginator = Paginator(posts, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    request.session['act_page'] = None
     return render(request, 'docs/pending.html', {'posts': posts, 'page_obj': page_obj})
 
 
@@ -215,6 +225,7 @@ def edit(request, doc_id):
     else:
         page = doc.pages.all()[0]
         index = page.id
+
 
     if request.method == 'POST':
         try:
