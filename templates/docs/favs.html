@@ -1,23 +1,20 @@
 {% extends 'base/main.html' %}
 
 {% block content %}
-    <div class="docs">
+    <div class="docs" style="padding-top: 50px">
     {% if docs %}
         {% for doc in page_obj %}
             <div class="doc">
             <div class="heading" style="display: flex">
-                <h2>{{ doc.name }}</h2>
+                <h2>{{ doc.title }}</h2>
             </div>
 {#                <a href="/doc/{{ doc.id }}?page={{ page_obj.number }}?from_fav_page=True">Ver</a>#}
                     <a href="/doc_f/{{ doc.id }}?page={{ page_obj.number }}">Ver</a>
 
             </div>
         {% endfor %}
-    {% else %}
-        <h2 class="no-results">No se encontraron documentos</h2>
-    {% endif %}
 
-    <div class="pagination">
+        <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
                 <a href="?page=1">&laquo; </a>
@@ -32,6 +29,11 @@
             {% endif %}
         </span>
     </div>
+    {% else %}
+        <h2 class="no-results">No se encontraron documentos</h2>
+    {% endif %}
+
+
     </div>
 
 {% endblock %}

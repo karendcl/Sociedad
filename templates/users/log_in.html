@@ -3,7 +3,7 @@
 {% block content %}
    {% load static %}
 
-    <div class="login-container">
+    <div class="login-container" style="padding-top: 50px">
         <form class="login-form" method="post" action="/log_in/">
             {% csrf_token %}
             <h2>Autenticarse</h2>

@@ -50,7 +50,7 @@ def save_tei(tei, path):
     ET.indent(tei, space="   ")
     tree.write(path)
 
-def create_heading(name):
+def create_heading(name, author, date, place, type_):
     tei = ET.Element('TEI')
     tei.attrib['xmlns'] = 'http://www.tei-c.org/ns/1.0'
 
@@ -59,6 +59,20 @@ def create_heading(name):
     titleStmt = ET.SubElement(fileDesc, 'titleStmt')
     title = ET.SubElement(titleStmt, 'title')
     title.text = f'{name}'
+
+    author_ = ET.SubElement(titleStmt, 'author')
+    author_.text = f'{author}'
+
+    publicationStmt = ET.SubElement(fileDesc, 'publicationStmt')
+    date_ = ET.SubElement(publicationStmt, 'date')
+    date_.text = f'{date}'
+
+    place_ = ET.SubElement(publicationStmt, 'pubPlace')
+    place_.text = f'{place}'
+
+    type__= ET.SubElement(fileDesc, 'type')
+    type__.text = f'{type_}'
+
 
     return tei
 
@@ -75,8 +89,9 @@ def create_page(tei, img, text):
 
     return tei
 
-def generate_xml(img_path: [], text:[[str]], title):
-    header = create_heading(title)
+def generate_xml(img_path: [], text:[[str]], title,
+                 author, date, place, type_):
+    header = create_heading(title, author, date, place, type_)
     tei = None
     for i in range(len(img_path)):
         tei = create_page(header, img_path[i], text[i])

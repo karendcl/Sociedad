@@ -3,40 +3,70 @@
 {% block content %}
     {% load static %}
 
-    <div class="responsive-container-block bigContainer">
-  <div class="responsive-container-block Container">
-      <img class="mainImg" src="https://images.ecestaticos.com/HBVX278dQAHG0g85C9d_vS0mY0k=/0x0:1258x833/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F888%2Fefc%2F90d%2F888efc90dce0aba015b99137cff78601.jpg">
+    <!-- Header -->
+<header class="w3-container w3-light-green w3-center" style="padding:128px 16px;">
+  <h1 class="w3-margin w3-jumbo">Proyecto Humboldt Digital</h1>
+  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="window.location.href = 'https://habanaberlin.hypotheses.org/category/espanol'">Ver página oficial <i class="fa fa-solid fa-arrow-right"></i></button>
+</header>
 
-    <div class="allText aboveText">
-      <p class="text-blk headingText">
-        Our Mission
-      </p>
-      <p class="text-blk subHeadingText">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </p>
-      <p class="text-blk description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fermentum pulvinar ullamcorper suspendisse ac eget. Pellentesque tempus leo in ullamcorper quis vestibulum ligula elementum ut.
-      </p>
-      <button class="explore">
-        Explore
-      </button>
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Quienes somos</h1>
+      <h5 class="w3-padding-32">El Proyecto Humboldt Digital (ProHD) es una iniciativa internacional para la capacitación en las Humanidades Digitales que se ejecuta en dos lugares: La Habana (Oficina del Historiador de La Ciudad de La Habana) y Berlín (Academia de Ciencias y Humanidades Berlín-Brandeburgo).</h5>
+
+      <p class="w3-text-grey">Como proyecto interdisciplinario e intercultural pionero, está dirigido a una nueva generación
+          de investigadores cubanos y alemanes que desean preservar, visibilizar e investigar el patrimonio cultural escrito
+          con la ayuda de las tecnologías y métodos de las humanidades digitales.
+
+        El proyecto se centra en la cultura científica y literaria cubana de los siglos XVIII y XIX, especialmente en hacer
+          disponible las fuentes cubanas relevantes para el tiempo en que Alejandro de Humboldt visitó y trabajó sobre la sociedad,
+          economía y cultura de Cuba (1800–1830).</p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <img src="https://habanaberlin.hypotheses.org/files/2022/04/logoHDNegativo-ALTA-500x500.jpg"
+           alt="Bryan haciendo su trabajo"
+{#    center it #}
+              style="display: block; margin-left: 20%; margin-right: auto; width: 100%;
+              height: 100%; border-radius: 5px; "
+      >
+
     </div>
   </div>
-  <div class="responsive-container-block Container bottomContainer">
-    <img class="mainImg" src="https://www.gedsa.es/wp-content/uploads/2023/08/GEDSA-Documentos-historicos.jpg">
-    <div class="allText bottomText">
-      <p class="text-blk headingText">
-        Our Vision
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+
+         <img src="https://habanaberlin.hypotheses.org/files/2020/02/OHCH.png"
+           alt="Bryan haciendo su trabajo"
+{#    center it #}
+              style="display: block; margin-right: 20%; margin-left: auto; width: 100%;
+              height: 100%; border-radius: 5px; "
+      >
+    </div>
+
+    <div class="w3-twothird">
+      <h1>Nuestra mision</h1>
+      <h5 class="w3-padding-32">A partir de 2020, los manuscritos y documentos históricos se digitalizarán en cuatro etapas:</h5>
+
+      <p class="w3-text-grey">
+          <h6>En La Habana:</h6>
+        <ul>
+            <li>Producción de facsímiles digitales de las fuentes originales</li>
+            <li>Indexación de metadatos</li>
+        </ul>
+        <h6>En Berlín y en La Habana:</h6>
+        <ul>
+            <li>Edición digital filológica (transcripción, codificación, comentario)</li>
+            <li>Publicación digital de acceso libre (open access)</li>
+        </ul>
+
       </p>
-      <p class="text-blk subHeadingText">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </p>
-      <p class="text-blk description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fermentum pulvinar ullamcorper suspendisse ac eget. Pellentesque tempus leo in ullamcorper quis vestibulum ligula elementum ut.
-      </p>
-      <button class="explore">
-        Explore
-      </button>
     </div>
   </div>
 </div>

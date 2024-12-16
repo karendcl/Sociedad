@@ -8,7 +8,11 @@
     <title>Sociedad Amigos del Pais</title>
 
     <link rel="stylesheet" href= "{% static 'style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-zR2Th/03ns5/I8AcdNR9F6qOZ7+c4Qhpn0y86gZlanGoQzcg+s+g/GqogbljQRGyGioS2PZU/iWhu03xFbJ0N4"  crossorigin="anonymous" referrerpolicy="no-referrer" />
+{#    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">#}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-zR2Th/03ns5/I8AcdNR9F6qOZ7+c4Qhpn0y86gZlanGoQzcg+s+g/GqogbljQRGyGioS2PZU/iWhu03xFbJ0N4"  crossorigin="anonymous" referrerpolicy="no-referrer" />#}
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -17,54 +21,72 @@
 </head>
 <body>
 
+<div class="w3-top" id="w3-top">
+  <div class="w3-bar w3-green w3-card w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+{#    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>#}
+      <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Acerca de</a>
+      <a href="/search" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Buscar</a>
 
-
-<nav class="nav-bar">
-<div class="container">
-    <ul class="menu">
-        <li><a href="/search">Buscar</a></li>
-        <li><a href="/about">Acerca de</a></li>
-
-        {% if request.session.role == 'ADMIN' %}
-            <li><a href="/admin">BASE DE DATOS</a></li>
-            <li><a href="/insert">Insertar</a></li>
-            <li><a href="/pending">Pendientes</a></li>
+      {% if request.session.role == 'ADMIN' %}
+            <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="/admin">BASE DE DATOS</a>
+            <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="/insert">Insertar</a>
+            <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="/pending">Pendientes</a>
     {% else %}
     {% if request.session.role == 'EDITOR' %}
-        <li><a href="/insert">Insertar</a></li>
+        <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="/insert">Insertar</a>
     {% else %}
     {% if request.session.role == 'REVISOR' %}
-        <li><a href="/pending">Pendientes</a></li>
+        <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="/pending">Pendientes</a>
     {% endif %}
     {% endif %}
     {% endif %}
 
     {% if not user.is_authenticated %}
-        <li><a href="/sign_up">Registrarse/Autenticarse</a></li>
+        <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="/sign_up">Registrarse/Autenticarse</a>
     {% else %}
-        <li><a href="/favorites">Favoritos</a></li>
-        <li><a href="/log_out">Salir</a></li>
+        <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="/favorites">Favoritos</a>
+        <a class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" href="/log_out">Salir</a>
     {% endif %}
 
+  </div>
 
-
-    </ul>
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 4</a>
+  </div>
 </div>
-</nav>
 
-{% if messages %}
-   {% for message in messages %}
-    <div class="alert {{ message.tags }} alert-dismissible shadow fade show"  role="alert">
-    <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">&times;</a>
-    {{ message|safe }}
-    </div>
+<div class="page" id="page">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible shadow fade show"  role="alert">
+            <a href="#" class="close" data-bs-dismiss="alert" aria-label="close">&times;</a>
+            {{ message|safe }}
+        </div>
     {% endfor %}
 {% endif %}
 
-<div class="page">
     {% block content %}
     {% endblock %}
 </div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">
+  <div class="w3-xlarge w3-padding-32">
+{#      onclick="window.location.href = 'https://habanaberlin.hypotheses.org/category/espanol'"#}
+      <i class="fa fa-info-circle w3-hover-opacity" onclick = "window.location.href='https://habanaberlin.hypotheses.org/'"></i>
+    <i class="fa fa-twitter w3-hover-opacity" onclick = "window.location.href='https://x.com/humboldtdigital?mx=2'"></i>
+      <i class="fa fa-youtube w3-hover-opacity" onclick = "window.location.href='https://www.youtube.com/channel/UCvG621IpddQr8yKeb311wnA'"></i>
+
+ </div>
+
+</footer>
+
+
 </body>
 
 <script src="{% static 'dnd.js' %}"></script>

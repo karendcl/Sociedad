@@ -71,12 +71,13 @@ def search(request, from_fav=False):
 
         filtered = [i for i in documents if
                     (title == '' or title in i.title) and
-                    (kw == '' or kw in i.text) and
-                    (date == '' or date in i.year) and
+                    (kw == '' or kw in i.xml_file) and
+                    (date == '' or date in str(i.year)) and
                     (author == '' or author in i.author) and
                     (place == '' or place in i.place) and
                     (type_doc == '' or type_doc in i.type)]
         print('filtering by: \n title:', title, '\n kw:', kw, '\n date:', date, '\n author:', author, '\n place:', place, '\n type:', type_doc)
+
 
         if ordered == '1':
             filtered = sorted(filtered, key=lambda x: x.year)
@@ -147,7 +148,8 @@ def insert(request):
 
 
             predicted_text = [page.text for page in pages]
-            xml = xml_generator.generate_xml(image_urls, predicted_text, title)
+            xml = xml_generator.generate_xml(image_urls, predicted_text, title,
+                                             author, date, place, type_doc)
 
             doc = Act.objects.create(title=title,
                                      year=date,
@@ -188,8 +190,13 @@ def view_doc_f(request, doc_id):
         act_page = Page.objects.get(pk=act_page)
     else:
         act_page = doc.pages.all()[0]
-    return render(request, 'docs/view.html', {'document': doc, 'page':request.GET.get('page'), 'from_fav': True})
 
+    has_next, has_prev, page, act = determine_nex_prev(doc_id, act_page.id, 0)
+
+    return render(request, 'docs/view.html', {'document': doc, 'page': request.GET.get('page'),
+                                              'from_fav': True, 'act_page': act_page,
+                                              'has_next': has_next,
+                                              'has_prev': has_prev})
 def pending(request):
     posts = Act.objects.all()
     posts = [post for post in posts if not post.approved]
@@ -237,9 +244,44 @@ def edit(request, doc_id):
             except:
                 pass
 
+            try:
+                author = request.POST['author']
+                if author == '':
+                    raise Exception
+                doc.author = author
+            except:
+                pass
+
+            try:
+                place = request.POST['place']
+                if place == '':
+                    raise Exception
+                doc.place = place
+            except:
+                pass
+
+            try:
+                date = request.POST['date']
+                if date == '':
+                    raise Exception
+                doc.year = date
+
+            except:
+                pass
+
+            try:
+                type_doc = request.POST['type']
+                doc.type = type_doc
+            except:
+                pass
+
+            doc.save()
+
+
             img_urls = [page.image.url for page in doc.pages.all()]
             text = [page.text for page in doc.pages.all()]
-            xml = xml_generator.generate_xml(img_urls, text, doc.title)
+            xml = xml_generator.generate_xml(img_urls, text, doc.title,
+                                             doc.author, doc.year, doc.place, doc.type)
             doc.xml_file = xml
             doc.approved = True
             #add it to approved documents
@@ -313,7 +355,7 @@ def delete(request, doc_id):
 def clean(request):
     documents = Act.objects.all()
     documents = [doc for doc in documents if doc.approved]
-    pagination_size = 4
+    pagination_size = 5
 
     try:
         user = User.objects.get(username=request.user.username)
