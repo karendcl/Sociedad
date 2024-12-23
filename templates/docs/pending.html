@@ -6,7 +6,7 @@
     <table class="styled-table" style="padding-top: 50px">
         <thead>
             <tr>
-                <th>Title</th>
+                <th>Título</th>
                 <th>Link</th>
             </tr>
         </thead>
@@ -14,7 +14,7 @@
             {% for post in page_obj %}
                 <tr>
                     <td>{{ post.title }}</td>
-                    <td><a href="/edit/{{ post.id }}?page={{ page_obj.number }}">Editar/Aprobar</a></td>
+                    <td><a href="/edit/{{ post.id }}?page={{ page_obj.number }}">Editar</a></td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -23,15 +23,15 @@
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}"> &larr; </a>
             {% endif %}
             <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
             </span>
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                <a href="?page={{ page_obj.next_page_number }}"> &rarr; </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"> &raquo;</a>
             {% endif %}
         </span>
     </div>

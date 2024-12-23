@@ -5,29 +5,34 @@
 
     <!-- Header -->
 <header class="w3-container w3-light-green w3-center" style="padding:128px 16px;">
-  <h1 class="w3-margin w3-jumbo">Proyecto Humboldt Digital</h1>
-  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="window.location.href = 'https://habanaberlin.hypotheses.org/category/espanol'">Ver página oficial <i class="fa fa-solid fa-arrow-right"></i></button>
+  <h1 class="w3-margin w3-jumbo">Actas de la SEAP</h1>
+{#  <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" onclick="window.location.href = 'https://en.wikipedia.org/wiki/Sociedad_Econ%C3%B3mica_de_los_Amigos_del_Pa%C3%ADs_de_la_Habana#:~:text=The%20Sociedad%20Econ%C3%B3mica%20de%20los,Amigos%20del%20Pa%C3%ADs%20in%20Spain.'">Ver más información <i class="fa fa-solid fa-arrow-right"></i></button>#}
+    <h4 style="width: 80%;">Preservación, descripción, automatización y digitalización de las Actas de la Sociedad Económica de Amigos del País de La Habana (1793-1900) desde un enfoque de Humanidades Digitales.</h4>
+
+
 </header>
 
 <!-- First Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-twothird">
-      <h1>Quienes somos</h1>
-      <h5 class="w3-padding-32">El Proyecto Humboldt Digital (ProHD) es una iniciativa internacional para la capacitación en las Humanidades Digitales que se ejecuta en dos lugares: La Habana (Oficina del Historiador de La Ciudad de La Habana) y Berlín (Academia de Ciencias y Humanidades Berlín-Brandeburgo).</h5>
+      <h1>Resumen del proyecto</h1>
+      <h5 class="w3-padding-32">El Archivo de la Sociedad Económica de Amigos del País de
+La Habana (SEAP) atesora una documentación única que refleja los fines que la inspiraron. Por su importancia para el estudio de la formación de nuestra nacionalidad y del desarrollo socioeconómico y cultural de nuestro país posee valor patrimonial.</h5>
 
-      <p class="w3-text-grey">Como proyecto interdisciplinario e intercultural pionero, está dirigido a una nueva generación
-          de investigadores cubanos y alemanes que desean preservar, visibilizar e investigar el patrimonio cultural escrito
-          con la ayuda de las tecnologías y métodos de las humanidades digitales.
+      <p class="w3-text-grey">
+Este fondo documental ha sido custodiado desde 1965 por
+el Instituto de Literatura y Lingüística (ILL). El Archivo de la SEAP atesora Actas de sus Juntas de Gobierno, Ordinarias y Extraordinarias, de los siglos XVIII al XX, donde está plasmada la intensa y fructífera vida de la corporación y de sus secciones de trabajo. Toda esta documentación es única en Cuba y el mundo, su estado de conservación es de regular a malo.
+El Proyecto, una vez identificados como problemas a resolver el escaso estudio de las Actas de la SEAP como documentos históricos y las dificultades para el acceso a estas como consecuencia de su deterioro, de las limitaciones para acceder a ellas, de la
+escasez de ejemplares y la inexistencia de ediciones; se propone, desde una perspectiva de Humanidades Digitales, el acceso a las Actas de la SEAP, a través de consultas y mecanismos de búsqueda mediante metadatos en soportes nuevos y modernos (web, online).
 
-        El proyecto se centra en la cultura científica y literaria cubana de los siglos XVIII y XIX, especialmente en hacer
-          disponible las fuentes cubanas relevantes para el tiempo en que Alejandro de Humboldt visitó y trabajó sobre la sociedad,
-          economía y cultura de Cuba (1800–1830).</p>
+
+      </p>
     </div>
 
     <div class="w3-third w3-center">
-      <img src="https://habanaberlin.hypotheses.org/files/2022/04/logoHDNegativo-ALTA-500x500.jpg"
-           alt="Bryan haciendo su trabajo"
+      <img src="{% static 'about1.jpg' %}"
+      alt="fachada de la Sociedad Económica de Amigos del País en La Habana"
 {#    center it #}
               style="display: block; margin-left: 20%; margin-right: auto; width: 100%;
               height: 100%; border-radius: 5px; "
@@ -42,34 +47,94 @@
   <div class="w3-content">
     <div class="w3-third w3-center">
 
-         <img src="https://habanaberlin.hypotheses.org/files/2020/02/OHCH.png"
-           alt="Bryan haciendo su trabajo"
+         <img src="{% static 'fachada.jpg' %}"
+         alt="Bryan haciendo su trabajo"
 {#    center it #}
-              style="display: block; margin-right: 20%; margin-left: auto; width: 100%;
+              style="display: block; margin-left: auto;
+              align-items: center;
+              width: 100%;
               height: 100%; border-radius: 5px; "
       >
     </div>
 
     <div class="w3-twothird">
-      <h1>Nuestra mision</h1>
-      <h5 class="w3-padding-32">A partir de 2020, los manuscritos y documentos históricos se digitalizarán en cuatro etapas:</h5>
+{#      <h1>Nuestra mision</h1>#}
+{#      <h5 class="w3-padding-32">A partir de 2020, los manuscritos y documentos históricos se digitalizarán en cuatro etapas:</h5>#}
 
-      <p class="w3-text-grey">
-          <h6>En La Habana:</h6>
-        <ul>
-            <li>Producción de facsímiles digitales de las fuentes originales</li>
-            <li>Indexación de metadatos</li>
-        </ul>
-        <h6>En Berlín y en La Habana:</h6>
-        <ul>
-            <li>Edición digital filológica (transcripción, codificación, comentario)</li>
-            <li>Publicación digital de acceso libre (open access)</li>
-        </ul>
+      <p class="w3-text-grey" style="margin-left: 30px;">
+          Por ello, se plantea como objetivo preparar y publicar en línea un sistema web que contribuya a una mejor comprensión global de las Actas de la Sociedad Económica de Amigos del País de La Habana (1793-1900) y su impacto en la sociedad cubana. Este período temporal fue elegido por el estado de deterioro de los documentos provenientes de esas fechas, así como porque ha sido uno de los períodos de mayor actividad de la Sociedad
+
+          Para ello se plantea realizar labores de conservación preventiva a toda la documentación del archivo de las Actas, describir esta colección, implementar un sistema web que informatice el proceso de transcripción, revisión, enlace con los documentos facsimilares y creación de archivos XML-TEI para su consulta en internet; obtener imágenes digitales de los documentos de las Actas; transcribir, revisar, enlazar los documentos facsimilares y crear archivos XML-TEI con el sistema web desplegado; y elaborar un índice analítico de las Actas. La descripción archivística y el índice analítico de las Actas hasta ahora no han sido realizados, a diferencia de los ya publicados referidos a otras colecciones dentro del Archivo de la SEAP como la Revista Bimestre Cubana y las Memorias de la Sociedad.
+Con este nuevo proyecto se podrá contribuir al mejor conocimiento y estudio de las Actas de la SEAP de Cuba. La trascendencia científica y social de un proyecto de investigación como el que se propone rebasa los marcos de la disciplina archivística, por lo que representa para la salvaguarda de nuestra cultura y nuestro patrimonio. Además,
+la puesta en funcionamiento de dicho archivo digital web permitirá el
+desarrollo de futuras investigaciones de corte histórico, cultural,
+lingüístico, entre otras.
+Estos resultados aportarán al conocimiento y estudio de las Actas de la SEAP y a la preservación de nuestra historia, como elemento constitutivo de la cultura y la identidad nacional.
 
       </p>
     </div>
+
+  </div>
+
+
+</div>
+
+    <div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Sobre el proyecto</h1>
+
+        <h5 class="w3-padding-32">
+            Proyecto asociado al Programa sectorial “Gestión de ciencia, tecnología e innovación para el desarrollo sostenible”, Código PS211LH008-000, Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA), Cuba, 2024-2026.
+            </h5>
+
+      <p class="w3-text-grey">
+        <ul>
+        <li> Entidad Ejecutora Principal: Instituto de Literatura y Lingüística “José Antonio Portuondo Valdor” (ILL)</li>
+        <li>JEFE DEL PROYECTO: Janet Céspedes Rodríguez, Jefa de Departamento de Procesos Técnicos, Conservación y Digitalización, Instituto de Literatura y Lingüística “José Antonio Portuondo Valdor” (ILL)</li>
+    </ul>
+      </p>
+    </div>
+
+    <div class="w3-third w3-center">
+      <img src="{% static 'about2.jfif' %}"
+      alt="fachada de la Sociedad Económica de Amigos del País en La Habana"
+{#    center it #}
+              style="display: block; margin-left: 20%; margin-right: auto; width: 100%;
+              height: 100%; border-radius: 5px; "
+      >
+
+    </div>
   </div>
 </div>
+
+    <!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity">
+  <div class="w3-xlarge w3-padding-16 associates">
+      <div class="associate" >
+            <img src="{% static 'seap.jfif' %}" alt="Logo" style="width: 100px; height: 100px;">
+            <p>Sociedad Económica Amigos del País</p>
+        </div>
+
+        <div class="associate" >
+            <img src="{% static 'ill.jfif' %}" alt="Logo" style="width: 100px; height: 100px;">
+            <p>Instituto de Literatura y Lingüística “José Antonio Portuondo Valdor” (ILL)</p>
+        </div>
+
+        <div class="associate" >
+            <img src="{% static 'matcom.jfif' %}" alt="Logo" style="width: 100px; height: 100px;">
+            <p>Facultad de Matemática y Computación</p>
+        </div>
+
+        <div class="associate">
+            <img src="{% static 'citma.png' %}" alt="Logo" style="width: 100px; height: 100px;">
+            <p>Ministerio de Ciencia, Tecnología y Medio Ambiente (CITMA)</p>
+        </div>
+
+
+ </div>
+
+</footer>
 
 
 

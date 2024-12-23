@@ -29,7 +29,7 @@ class Page(models.Model):
 
 class Act(models.Model):
     title = models.CharField(max_length=200)
-    year = models.IntegerField()
+    year = models.CharField(default='00/00/0000', max_length=10)
     author = models.CharField(max_length=200)
     place = models.CharField(max_length=200)
     type = models.CharField(max_length=200)
