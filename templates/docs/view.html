@@ -50,11 +50,12 @@
          </div>
     </div>
 
-    {% if from_fav %}
-        <button class="back-btn" onclick="window.location.href = '/favorites/?page={{ page }}'">Atrás</button>
-    {% else %}
-        <button class="back-btn" onclick="window.location.href = '/search/?page={{ page }}'">Atrás</button>
-    {% endif %}
+
+    <button class="back-btn" onclick="window.location.href =
+            {% if from_fav %}'/favorites/?page={{ page }}'
+            {% else %} '/search/?page={{ page }}' {% endif %}">Atrás</button>
+
+
 
 
 {% endblock %}

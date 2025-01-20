@@ -17,7 +17,6 @@ def sign_up(request):
             messages.error(request, 'Nombre de usuario ya en uso')
             return redirect('sign_up')
 
-
         try:
             user = User.objects.create_user(username=username, password=password)
             user.save()
@@ -45,7 +44,6 @@ def log_in(request):
             else:
                 request.session['role'] = 'user'
             messages.success(request,'Autenticación exitosa')
-            # return render(request, 'docs/search.html')
             return redirect('search')
         else:
             messages.error(request, 'Credenciales inválidas')
