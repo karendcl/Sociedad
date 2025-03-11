@@ -37,6 +37,14 @@ python manage.py migrate
 python manage.py runserver
 ```
 5. Acceder a la aplicación web en la dirección `http://localhost:8000`
+6. Si es la primera vez q se ejecuta la bd, se deben crear los usuarios y roles:
+```bash
+python manage.py createsuperuser
+```
+7. Para crear los roles, se debe acceder a la dirección `http://localhost:8000/admin` y loguearse con el usuario creado en el paso anterior.
+8. Crear 3 grupos: 'ADMIN', 'EDITOR', 'REVISOR'. Asignar los permisos correspondientes a cada grupo.
+9. En admin también se debe crear una instancia de 'Profile' para el usuario administrador creado en el paso 6.
+
 
 ## Contraseñas de roles
 Ver en archivo `secrets.json`
